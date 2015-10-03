@@ -24,14 +24,21 @@ object.get('value'); // 'value2'
 There also is nothing stoping you from making the `path` itself a computed property:
 
 ```js
-Ember.Object.extend({
-  originalObject: 
+var object = Ember.Object.extend({
+  originalObject: { original: true },
+  editingObject: { editing: true },
+
+  editing: false,
   objectPath: Ember.computed('editing', function() {
     return this.get('editing') ? 'editingObject' : 'originalObject'
   },
   
   currentObject: computedIndirect('objectPath')
-});
+}).create();
+
+object.get('currentObject'); // { original: true }
+object.toggleProperty('editing');
+object.get('currentObject'); // { editing: true }
 ```
 
 
